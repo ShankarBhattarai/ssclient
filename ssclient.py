@@ -147,13 +147,9 @@ def getInterfaces():
            #             values[intf] = [int(value) for value in line[line.index(":")+1:].split()]
         #return values
 
-		#ips = commands.getoutput("/sbin/ifconfig | grep -i \"inet\" | grep -iv \"inet6\" | " +
-        #                 "awk {'print $2'} | sed -ne 's/addr\:/ /p'")
-		
-		#return ips
-		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    	s.connect(("8.8.8.8", 80))
-    	return s
+		ips = commands.getoutput("/sbin/ifconfig | grep -i \"inet\" | grep -iv \"inet6\" | " +
+                         "awk {'print $2'} | sed -ne 's/addr\:/ /p'")
+		return ips
 
 
 args()
