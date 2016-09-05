@@ -5,7 +5,7 @@
 ver = 1.0
 
 
-import socket, os, sys, re, getopt, json
+import socket, os, sys, re, getopt, json, commands
 
 try:
         import ssconf
@@ -138,14 +138,19 @@ def getDisk():
         return dics
 
 def getInterfaces():
-        dev = open("/proc/net/dev", "r").readlines()
+       # dev = open("/proc/net/dev", "r").readlines()
 
-        values={}
-        for line in dev[2:]:
-                intf = line[:line.index(":")].strip()
-                if intf in ssconf.interfaces:
-                        values[intf] = [int(value) for value in line[line.index(":")+1:].split()]
-        return values
+        #values={}
+        #for line in dev[2:]:
+         #       intf = line[:line.index(":")].strip()
+          #      if intf in ssconf.interfaces:
+           #             values[intf] = [int(value) for value in line[line.index(":")+1:].split()]
+        #return values
+
+		ips = commands.getoutput("/sbin/ifconfig | grep -i \"inet\" | grep -iv \"inet6\" | " +
+                         "awk {'print $2'} | sed -ne 's/addr\:/ /p'")
+		return ips
+
 
 args()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
